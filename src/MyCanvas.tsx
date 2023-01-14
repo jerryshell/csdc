@@ -1,6 +1,12 @@
 import {useEffect, useRef, useState} from 'react'
 
-const MyCanvas = () => {
+const MyCanvas = (
+    {
+        externalRender,
+    }: {
+        externalRender: (ctx: CanvasRenderingContext2D) => void,
+    },
+) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
     const [canvasCtx, setCanvasCtx] = useState<CanvasRenderingContext2D | null>(null)
@@ -11,8 +17,13 @@ const MyCanvas = () => {
     }, [])
 
     useEffect(() => {
-        canvasCtx?.fillRect(100, 100, 100, 100)
+        requestAnimationFrame(render)
     }, [canvasCtx])
+
+    const render = () => {
+        externalRender(canvasCtx!)
+        requestAnimationFrame(render)
+    }
 
     return (
         <canvas ref={canvasRef}/>
