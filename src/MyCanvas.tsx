@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from 'react'
+import constant from './constant'
 
 const MyCanvas = (
     {
@@ -13,6 +14,8 @@ const MyCanvas = (
 
     useEffect(() => {
         const ctx = canvasRef.current!.getContext('2d')
+        canvasRef.current!.width = constant.canvasWidth
+        canvasRef.current!.height = constant.canvasHeight
         setCanvasCtx(ctx)
     }, [])
 
