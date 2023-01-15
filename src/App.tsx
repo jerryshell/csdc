@@ -2,6 +2,7 @@ import './App.css'
 import MyCanvas from './MyCanvas'
 import Road from './game/Road'
 import Car from './game/Car'
+import constant from './constant'
 
 function App() {
     const road = Road.create()
@@ -20,6 +21,8 @@ function App() {
         }
 
         Car.update(car)
+
+        ctx.translate(0, -car.y + constant.canvasHeight / 2)
 
         Road.render(ctx, road)
         Car.render(ctx, car)
