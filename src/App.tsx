@@ -1,15 +1,24 @@
 import './App.css'
 import MyCanvas from './MyCanvas'
 import Road from './game/Road'
+import Car from './game/Car'
 
 function App() {
     const road = Road.create()
+    const car = Car.create(
+        Road.getLaneCenterX(road, 1),
+        200,
+        60,
+        80,
+        '#FCFCFC',
+    )
 
     const render = (ctx: CanvasRenderingContext2D) => {
         if (ctx === null) {
             return
         }
         Road.render(ctx, road)
+        Car.render(ctx, car)
     }
     return (
         <>

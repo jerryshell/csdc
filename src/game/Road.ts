@@ -12,7 +12,13 @@ const create = () => {
         width: constant.canvasWidth,
         height: 100000,
         laneCount: 3,
-    }
+    } as IRoad
+}
+
+const getLaneCenterX = (road: IRoad, laneIndex: number) => {
+    laneIndex = Math.min(laneIndex, road.laneCount - 1)
+    const laneWidth = road.width / road.laneCount
+    return laneIndex * laneWidth + laneWidth / 2
 }
 
 const render = (ctx: CanvasRenderingContext2D, road: IRoad) => {
@@ -51,4 +57,5 @@ const render = (ctx: CanvasRenderingContext2D, road: IRoad) => {
 export default {
     create,
     render,
+    getLaneCenterX,
 }
