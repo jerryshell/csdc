@@ -10,6 +10,7 @@ export interface ICar {
     carController: ICarController,
     speed: number,
     maxSpeed: number,
+    angle: number,
 }
 
 const create = (
@@ -29,6 +30,7 @@ const create = (
         carController: CarController.create(),
         speed: 0,
         maxSpeed,
+        angle: 0,
     } as ICar
 }
 
@@ -56,12 +58,13 @@ const update = (car: ICar) => {
         car.speed = 0
     }
     if (car.carController.left) {
-        car.x -= 5
+        car.angle += constant.carAngleSpeed
     }
     if (car.carController.right) {
-        car.x += 5
+        car.angle -= constant.carAngleSpeed
     }
-    car.y -= car.speed
+    car.x -= Math.sin(car.angle) * car.speed
+    car.y -= Math.cos(car.angle) * car.speed
 }
 
 const render = (
@@ -70,10 +73,13 @@ const render = (
 ) => {
     ctx.save()
 
+    ctx.translate(car.x, car.y)
+    ctx.rotate(-car.angle)
+
     ctx.fillStyle = car.color
     ctx.fillRect(
-        car.x - car.width / 2,
-        car.y - car.height / 2,
+        -car.width / 2,
+        -car.height / 2,
         car.width,
         car.height,
     )

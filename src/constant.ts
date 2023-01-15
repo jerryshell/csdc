@@ -3,4 +3,5 @@ export default {
     canvasHeight: window.innerHeight,
     carAcceleration: 0.2,
     carFriction: 0.05,
+    carAngleSpeed: 0.03,
 }
