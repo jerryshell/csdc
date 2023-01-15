@@ -11,6 +11,7 @@ function App() {
         60,
         80,
         '#FCFCFC',
+        3,
     )
 
     const render = (ctx: CanvasRenderingContext2D) => {

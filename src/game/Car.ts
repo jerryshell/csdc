@@ -1,4 +1,5 @@
 import CarController, {ICarController} from './CarController'
+import constant from '../constant'
 
 export interface ICar {
     x: number,
@@ -7,6 +8,8 @@ export interface ICar {
     height: number,
     color: string,
     carController: ICarController,
+    speed: number,
+    maxSpeed: number,
 }
 
 const create = (
@@ -15,6 +18,7 @@ const create = (
     width: number,
     height: number,
     color: string,
+    maxSpeed: number,
 ) => {
     return {
         x,
@@ -23,17 +27,26 @@ const create = (
         height,
         color,
         carController: CarController.create(),
+        speed: 0,
+        maxSpeed,
     } as ICar
 }
 
 const update = (car: ICar) => {
     CarController.update(car.carController)
     if (car.carController.forward) {
-        car.y -= 5
+        car.speed += constant.carAcceleration
     }
     if (car.carController.reverse) {
-        car.y += 5
+        car.speed -= constant.carAcceleration
     }
+    if (car.speed > car.maxSpeed) {
+        car.speed = car.maxSpeed
+    }
+    if (car.speed < -car.maxSpeed) {
+        car.speed = -car.maxSpeed
+    }
+    car.y -= car.speed
 }
 
 const render = (
