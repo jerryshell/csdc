@@ -17,6 +17,9 @@ function App() {
         if (ctx === null) {
             return
         }
+
+        Car.update(car)
+
         Road.render(ctx, road)
         Car.render(ctx, car)
     }

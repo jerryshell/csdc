@@ -24,6 +24,7 @@ const MyCanvas = (
     }, [canvasCtx])
 
     const render = () => {
+        canvasRef.current!.width = constant.canvasWidth
         externalRender(canvasCtx!)
         requestAnimationFrame(render)
     }

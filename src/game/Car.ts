@@ -1,9 +1,12 @@
+import CarController, {ICarController} from './CarController'
+
 export interface ICar {
     x: number,
     y: number,
     width: number,
     height: number,
     color: string,
+    carController: ICarController,
 }
 
 const create = (
@@ -19,7 +22,18 @@ const create = (
         width,
         height,
         color,
+        carController: CarController.create(),
     } as ICar
+}
+
+const update = (car: ICar) => {
+    CarController.update(car.carController)
+    if (car.carController.forward) {
+        car.y -= 5
+    }
+    if (car.carController.reverse) {
+        car.y += 5
+    }
 }
 
 const render = (
@@ -41,5 +55,6 @@ const render = (
 
 export default {
     create,
+    update,
     render,
 }
