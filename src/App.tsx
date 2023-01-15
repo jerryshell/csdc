@@ -1,13 +1,15 @@
 import './App.css'
 import MyCanvas from './MyCanvas'
-import constant from './constant'
+import Road from './game/Road'
 
 function App() {
+    const road = Road.create()
+
     const render = (ctx: CanvasRenderingContext2D) => {
         if (ctx === null) {
             return
         }
-        ctx.fillRect(0, 0, constant.canvasWidth, constant.canvasHeight)
+        Road.render(ctx, road)
     }
     return (
         <>
