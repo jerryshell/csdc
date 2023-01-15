@@ -46,6 +46,15 @@ const update = (car: ICar) => {
     if (car.speed < -car.maxSpeed) {
         car.speed = -car.maxSpeed
     }
+    if (car.speed > 0) {
+        car.speed -= constant.carFriction
+    }
+    if (car.speed < 0) {
+        car.speed += constant.carFriction
+    }
+    if (Math.abs(car.speed) < constant.carFriction) {
+        car.speed = 0
+    }
     car.y -= car.speed
 }
 
