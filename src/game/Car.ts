@@ -55,6 +55,12 @@ const update = (car: ICar) => {
     if (Math.abs(car.speed) <= constant.carFriction) {
         car.speed = 0
     }
+    if (car.carController.left) {
+        car.x -= 5
+    }
+    if (car.carController.right) {
+        car.x += 5
+    }
     car.y -= car.speed
 }
 
