@@ -1,5 +1,6 @@
 import CarController, {ICarController} from './CarController'
 import constant from '../constant'
+import Sensor, {ISensor} from './Sensor'
 
 export interface ICar {
     x: number,
@@ -11,6 +12,7 @@ export interface ICar {
     speed: number,
     maxSpeed: number,
     angle: number,
+    sensor: ISensor,
 }
 
 const create = (
@@ -31,6 +33,7 @@ const create = (
         speed: 0,
         maxSpeed,
         angle: 0,
+        sensor: Sensor.create(),
     } as ICar
 }
 
@@ -71,6 +74,7 @@ const move = (car: ICar) => {
 
 const update = (car: ICar) => {
     CarController.update(car.carController)
+    Sensor.update(car.sensor, car)
     move(car)
 }
 
@@ -92,6 +96,8 @@ const render = (
     )
 
     ctx.restore()
+
+    Sensor.render(ctx, car.sensor)
 }
 
 export default {
