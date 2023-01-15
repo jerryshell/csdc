@@ -34,8 +34,7 @@ const create = (
     } as ICar
 }
 
-const update = (car: ICar) => {
-    CarController.update(car.carController)
+const move = (car: ICar) => {
     if (car.carController.forward) {
         car.speed += constant.carAcceleration
     }
@@ -57,14 +56,22 @@ const update = (car: ICar) => {
     if (Math.abs(car.speed) <= constant.carFriction) {
         car.speed = 0
     }
-    if (car.carController.left) {
-        car.angle += constant.carAngleSpeed
-    }
-    if (car.carController.right) {
-        car.angle -= constant.carAngleSpeed
+    if (car.speed !== 0) {
+        const flip = car.speed > 0 ? 1 : -1
+        if (car.carController.left) {
+            car.angle += constant.carAngleSpeed * flip
+        }
+        if (car.carController.right) {
+            car.angle -= constant.carAngleSpeed * flip
+        }
     }
     car.x -= Math.sin(car.angle) * car.speed
     car.y -= Math.cos(car.angle) * car.speed
+}
+
+const update = (car: ICar) => {
+    CarController.update(car.carController)
+    move(car)
 }
 
 const render = (
