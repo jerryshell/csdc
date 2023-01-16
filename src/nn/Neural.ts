@@ -25,7 +25,21 @@ const feed = (neural: INeural, inputList: number[]) => {
     return sum + neural.bias
 }
 
+const mutate = (neural: INeural, mutateRate: number) => {
+    const biasMutateFlag = Math.random() >= (1 - mutateRate)
+    if (biasMutateFlag) {
+        neural.bias = utils.getRandomByRange(-1, 1)
+    }
+    for (let i = 0; i < neural.weightList.length; i++) {
+        const weightMutateFlag = Math.random() >= (1 - mutateRate)
+        if (weightMutateFlag) {
+            neural.weightList[i] = utils.getRandomByRange(-1, 1)
+        }
+    }
+}
+
 export default {
     create,
     feed,
+    mutate,
 }

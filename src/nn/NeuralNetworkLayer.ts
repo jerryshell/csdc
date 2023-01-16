@@ -37,7 +37,14 @@ const feed = (
     return outputList
 }
 
+const mutate = (nnl: INeuralNetworkLayer, mutateRate: number) => {
+    for (let neural of nnl.neuralList) {
+        Neural.mutate(neural, mutateRate)
+    }
+}
+
 export default {
     create,
     feed,
+    mutate,
 }

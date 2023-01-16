@@ -64,6 +64,9 @@ const createAiCarList = (road: IRoad) => {
             'ai',
         )
         NeuralNetwork.load(car.carController.ai!)
+        if (i !== 0) {
+            NeuralNetwork.mutate(car.carController.ai!, 0.2)
+        }
         carList.push(car)
     }
 

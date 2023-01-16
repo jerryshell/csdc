@@ -44,10 +44,17 @@ const load = (nn: INeuralNetwork) => {
     }
 }
 
+const mutate = (nn: INeuralNetwork, mutateRate: number) => {
+    for (let nnl of nn.layerList) {
+        NeuralNetworkLayer.mutate(nnl, mutateRate)
+    }
+}
+
 export default {
     create,
     feed,
     save,
     remove,
     load,
+    mutate,
 }
