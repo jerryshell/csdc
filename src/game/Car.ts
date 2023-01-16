@@ -3,6 +3,7 @@ import constant from '../constant'
 import Sensor, {ISensor} from './Sensor'
 import ILine from '../2d/ILine'
 import IPoint from '../2d/IPoint'
+import utils from '../utils'
 
 export interface ICar {
     x: number,
@@ -16,6 +17,7 @@ export interface ICar {
     angle: number,
     sensor: ISensor,
     polygonList: IPoint[],
+    damageFlag: boolean,
 }
 
 const create = (
@@ -38,6 +40,7 @@ const create = (
         angle: 0,
         sensor: Sensor.create(),
         polygonList: [],
+        damageFlag: false,
     } as ICar
 }
 
@@ -80,10 +83,42 @@ const update = (
     car: ICar,
     roadBorderList: ILine[],
 ) => {
+    if (car.damageFlag) {
+        return
+    }
     CarController.update(car.carController)
     Sensor.update(car.sensor, car, roadBorderList)
     updatePolygonList(car)
+    updateDamageFlag(car, roadBorderList)
     move(car)
+}
+
+const updateDamageFlag = (
+    car: ICar,
+    roadBorderList: ILine[],
+) => {
+    // 与道路边界线碰撞检测
+    for (let i = 0; i < car.polygonList.length; i++) {
+        const polygon = car.polygonList[i]
+        const polygonNext = car.polygonList[(i + 1) % car.polygonList.length]
+        for (let roadBorder of roadBorderList) {
+            const intersection = utils.getIntersection(
+                {
+                    startPoint: polygon,
+                    endPoint: polygonNext,
+                },
+                {
+                    startPoint: roadBorder.startPoint,
+                    endPoint: roadBorder.endPoint,
+                },
+            )
+            if (intersection) {
+                car.damageFlag = true
+                return
+            }
+        }
+    }
+    car.damageFlag = false
 }
 
 const updatePolygonList = (car: ICar) => {
@@ -118,6 +153,9 @@ const render = (
     ctx.save()
 
     ctx.fillStyle = car.color
+    if (car.damageFlag) {
+        ctx.fillStyle = 'gray'
+    }
     ctx.beginPath()
     ctx.moveTo(car.polygonList[0].x, car.polygonList[0].y)
     for (let i = 1; i < car.polygonList.length; i++) {
