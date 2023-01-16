@@ -90,8 +90,8 @@ const update = (
     if (car.damageFlag) {
         return
     }
-    CarController.update(car.carController)
     Sensor.update(car.sensor, car, roadBorderList, trafficPolygonCollection)
+    CarController.update(car.carController, car.sensor.readingList)
     updatePolygonList(car)
     updateDamageFlag(car, roadBorderList, trafficPolygonCollection)
     move(car)

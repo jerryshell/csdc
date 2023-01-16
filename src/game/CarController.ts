@@ -1,3 +1,5 @@
+import NeuralNetwork, {INeuralNetwork} from '../nn/NeuralNetwork'
+
 let keyWDown = false
 let keyADown = false
 let keyDDown = false
@@ -43,6 +45,7 @@ export interface ICarController {
     right: boolean,
     reverse: boolean,
     controlType: string,
+    ai: INeuralNetwork | null,
 }
 
 const create = (
@@ -54,11 +57,13 @@ const create = (
         right: false,
         reverse: false,
         controlType,
+        ai: controlType === 'ai' ? NeuralNetwork.create([5, 10, 4]) : null,
     } as ICarController
 }
 
 const update = (
     cc: ICarController,
+    sensorReadingList: number[] | null,
 ) => {
     switch (cc.controlType) {
         case 'keyboard':
@@ -69,6 +74,16 @@ const update = (
             break
         case 'dummy':
             cc.forward = true
+            break
+        case 'ai':
+            if (!cc.ai || !sensorReadingList) {
+                return
+            }
+            const outputList = NeuralNetwork.feed(cc.ai, sensorReadingList)
+            cc.forward = outputList[0] > 0
+            cc.left = outputList[1] > 0
+            cc.right = outputList[2] > 0
+            cc.reverse = outputList[3] > 0
             break
     }
 }

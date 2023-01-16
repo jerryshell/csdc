@@ -26,7 +26,7 @@ function App() {
         80,
         '#FCFCFC',
         3,
-        'keyboard',
+        'ai',
     )
 
     const render = (ctx: CanvasRenderingContext2D) => {
