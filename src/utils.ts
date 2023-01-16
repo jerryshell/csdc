@@ -1,5 +1,9 @@
 import ILine from './2d/ILine'
 
+const getRandomByRange = (min: number, max: number) => {
+    return min + (max - min) * Math.random()
+}
+
 const lerp = (a: number, b: number, t: number) => {
     return a + (b - a) * t
 }
@@ -37,6 +41,7 @@ const getIntersection = (
 }
 
 export default {
+    getRandomByRange,
     lerp,
     getIntersection,
 }
