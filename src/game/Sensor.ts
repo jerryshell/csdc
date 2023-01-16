@@ -60,7 +60,7 @@ const updateReadingList = (
         readingList.push(Math.min(...rayReadingList))
     }
 
-    console.table(readingList)
+    // console.table(readingList)
     sensor.readingList = readingList
 }
 

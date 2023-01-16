@@ -2,6 +2,7 @@ import CarController, {ICarController} from './CarController'
 import constant from '../constant'
 import Sensor, {ISensor} from './Sensor'
 import ILine from '../2d/ILine'
+import IPoint from '../2d/IPoint'
 
 export interface ICar {
     x: number,
@@ -14,6 +15,7 @@ export interface ICar {
     maxSpeed: number,
     angle: number,
     sensor: ISensor,
+    polygonList: IPoint[],
 }
 
 const create = (
@@ -35,6 +37,7 @@ const create = (
         maxSpeed,
         angle: 0,
         sensor: Sensor.create(),
+        polygonList: [],
     } as ICar
 }
 
@@ -79,7 +82,33 @@ const update = (
 ) => {
     CarController.update(car.carController)
     Sensor.update(car.sensor, car, roadBorderList)
+    updatePolygonList(car)
     move(car)
+}
+
+const updatePolygonList = (car: ICar) => {
+    const polygonList = [] as IPoint[]
+
+    const rad = Math.hypot(car.width, car.height) / 2
+    const alpha = Math.atan2(car.height, car.width)
+    polygonList.push({
+        x: car.x - rad * Math.cos(alpha - car.angle),
+        y: car.y - rad * Math.sin(alpha - car.angle),
+    })
+    polygonList.push({
+        x: car.x + rad * Math.cos(alpha + car.angle),
+        y: car.y - rad * Math.sin(alpha + car.angle),
+    })
+    polygonList.push({
+        x: car.x + rad * Math.cos(alpha - car.angle),
+        y: car.y + rad * Math.sin(alpha - car.angle),
+    })
+    polygonList.push({
+        x: car.x - rad * Math.cos(alpha + car.angle),
+        y: car.y + rad * Math.sin(alpha + car.angle),
+    })
+
+    car.polygonList = polygonList
 }
 
 const render = (
@@ -88,16 +117,13 @@ const render = (
 ) => {
     ctx.save()
 
-    ctx.translate(car.x, car.y)
-    ctx.rotate(-car.angle)
-
     ctx.fillStyle = car.color
-    ctx.fillRect(
-        -car.width / 2,
-        -car.height / 2,
-        car.width,
-        car.height,
-    )
+    ctx.beginPath()
+    ctx.moveTo(car.polygonList[0].x, car.polygonList[0].y)
+    for (let i = 1; i < car.polygonList.length; i++) {
+        ctx.lineTo(car.polygonList[i].x, car.polygonList[i].y)
+    }
+    ctx.fill()
 
     ctx.restore()
 
