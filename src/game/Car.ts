@@ -4,6 +4,7 @@ import Sensor, {ISensor} from './Sensor'
 import ILine from '../2d/ILine'
 import IPoint from '../2d/IPoint'
 import utils from '../utils'
+import Road, {IRoad} from './Road'
 
 export interface ICar {
     x: number,
@@ -45,6 +46,26 @@ const create = (
         damageFlag: false,
         controlType,
     } as ICar
+}
+
+const createAiCarList = (road: IRoad) => {
+    const N = 100
+    const carList = [] as ICar[]
+
+    for (let i = 0; i < N; i++) {
+        const car = create(
+            Road.getLaneCenterX(road, 1),
+            200,
+            60,
+            80,
+            '#FCFCFC',
+            3,
+            'ai',
+        )
+        carList.push(car)
+    }
+
+    return carList
 }
 
 const move = (car: ICar) => {
@@ -202,6 +223,7 @@ const render = (
 
 export default {
     create,
+    createAiCarList,
     update,
     render,
 }

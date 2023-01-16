@@ -19,15 +19,16 @@ function App() {
         ),
     ]
 
-    const car = Car.create(
-        Road.getLaneCenterX(road, 1),
-        200,
-        60,
-        80,
-        '#FCFCFC',
-        3,
-        'ai',
-    )
+    // const car = Car.create(
+    //     Road.getLaneCenterX(road, 1),
+    //     200,
+    //     60,
+    //     80,
+    //     '#FCFCFC',
+    //     3,
+    //     'ai',
+    // )
+    const carList = Car.createAiCarList(road)
 
     const render = (ctx: CanvasRenderingContext2D) => {
         if (ctx === null) {
@@ -37,15 +38,21 @@ function App() {
         for (let trafficCar of traffic) {
             Car.update(trafficCar, road.roadBorderList, [])
         }
-        Car.update(car, road.roadBorderList, traffic.map(item => item.polygonList))
+        for (let car of carList) {
+            Car.update(car, road.roadBorderList, traffic.map(item => item.polygonList))
+        }
 
-        ctx.translate(0, -car.y + constant.canvasHeight / 2)
+        const minY = Math.min(...carList.map(item => item.y))
+        const bestCar = carList.find(item => item.y === minY) || carList[0]
+        ctx.translate(0, -bestCar.y + constant.canvasHeight / 2)
 
         Road.render(ctx, road)
         for (let trafficCar of traffic) {
             Car.render(ctx, trafficCar)
         }
-        Car.render(ctx, car)
+        for (let car of carList) {
+            Car.render(ctx, car)
+        }
     }
     return (
         <>
