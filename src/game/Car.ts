@@ -1,6 +1,7 @@
 import CarController, {ICarController} from './CarController'
 import constant from '../constant'
 import Sensor, {ISensor} from './Sensor'
+import ILine from '../2d/ILine'
 
 export interface ICar {
     x: number,
@@ -72,9 +73,12 @@ const move = (car: ICar) => {
     car.y -= Math.cos(car.angle) * car.speed
 }
 
-const update = (car: ICar) => {
+const update = (
+    car: ICar,
+    roadBorderList: ILine[],
+) => {
     CarController.update(car.carController)
-    Sensor.update(car.sensor, car)
+    Sensor.update(car.sensor, car, roadBorderList)
     move(car)
 }
 

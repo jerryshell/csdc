@@ -7,6 +7,7 @@ export interface ISensor {
     rayLength: number,
     rayAngleRange: number,
     rayList: ILine[],
+    readingList: number[],
 }
 
 const create = () => {
@@ -15,10 +16,55 @@ const create = () => {
         rayLength: 200,
         rayAngleRange: Math.PI / 2,
         rayList: [],
+        readingList: [],
     } as ISensor
 }
 
 const update = (
+    sensor: ISensor,
+    car: ICar,
+    roadBorderList: ILine[],
+) => {
+    updateRayList(sensor, car)
+    updateReadingList(sensor, roadBorderList)
+}
+
+const updateReadingList = (
+    sensor: ISensor,
+    roadBorderList: ILine[],
+) => {
+    const readingList = [] as number[]
+
+    for (let ray of sensor.rayList) {
+        const rayReadingList = [] as number[]
+
+        // 与道路边界线的交点判断
+        for (let roadBorder of roadBorderList) {
+            const intersection = utils.getIntersection(
+                {
+                    startPoint: ray.startPoint,
+                    endPoint: ray.endPoint,
+                },
+                {
+                    startPoint: roadBorder.startPoint,
+                    endPoint: roadBorder.endPoint,
+                },
+            )
+            if (intersection) {
+                rayReadingList.push(intersection.t)
+            } else {
+                rayReadingList.push(1)
+            }
+        }
+
+        readingList.push(Math.min(...rayReadingList))
+    }
+
+    console.table(readingList)
+    sensor.readingList = readingList
+}
+
+const updateRayList = (
     sensor: ISensor,
     car: ICar,
 ) => {

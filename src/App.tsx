@@ -20,7 +20,7 @@ function App() {
             return
         }
 
-        Car.update(car)
+        Car.update(car, road.roadBorderList)
 
         ctx.translate(0, -car.y + constant.canvasHeight / 2)
 
