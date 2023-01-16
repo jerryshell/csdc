@@ -29,7 +29,25 @@ const feed = (nn: INeuralNetwork, inputList: number[]) => {
     return output
 }
 
+const save = (nn: INeuralNetwork) => {
+    localStorage.setItem('ai', JSON.stringify(nn.layerList))
+}
+
+const remove = () => {
+    localStorage.removeItem('ai')
+}
+
+const load = (nn: INeuralNetwork) => {
+    const ai = localStorage.getItem('ai')
+    if (ai) {
+        nn.layerList = JSON.parse(ai)
+    }
+}
+
 export default {
     create,
     feed,
+    save,
+    remove,
+    load,
 }

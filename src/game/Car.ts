@@ -5,6 +5,7 @@ import ILine from '../2d/ILine'
 import IPoint from '../2d/IPoint'
 import utils from '../utils'
 import Road, {IRoad} from './Road'
+import NeuralNetwork from '../nn/NeuralNetwork'
 
 export interface ICar {
     x: number,
@@ -62,6 +63,7 @@ const createAiCarList = (road: IRoad) => {
             3,
             'ai',
         )
+        NeuralNetwork.load(car.carController.ai!)
         carList.push(car)
     }
 

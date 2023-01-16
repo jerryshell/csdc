@@ -1,8 +1,10 @@
 import './App.css'
 import MyCanvas from './MyCanvas'
 import Road from './game/Road'
-import Car from './game/Car'
+import Car, {ICar} from './game/Car'
 import constant from './constant'
+import {useState} from 'react'
+import NeuralNetwork from './nn/NeuralNetwork'
 
 function App() {
     const road = Road.create()
@@ -44,6 +46,7 @@ function App() {
 
         const minY = Math.min(...carList.map(item => item.y))
         const bestCar = carList.find(item => item.y === minY) || carList[0]
+        setBestCar(bestCar)
         ctx.translate(0, -bestCar.y + constant.canvasHeight / 2)
 
         Road.render(ctx, road)
@@ -57,9 +60,27 @@ function App() {
         ctx.globalAlpha = 1
         Car.render(ctx, bestCar, true)
     }
+
+    const [bestCar, setBestCar] = useState<ICar | null>(null)
+
+    const saveAi = () => {
+        if (!bestCar) {
+            return
+        }
+        NeuralNetwork.save(bestCar.carController.ai!)
+    }
+
+    const removeAi = () => {
+        NeuralNetwork.remove()
+    }
+
     return (
         <>
             <MyCanvas externalRender={render}/>
+            <div>
+                <button onClick={saveAi}>保存模型</button>
+                <button onClick={removeAi}>删除模型</button>
+            </div>
         </>
     )
 }
