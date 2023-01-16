@@ -57,7 +57,10 @@ function App() {
     //     3,
     //     'ai',
     // )
-    const carList = Car.createAiCarList(road)
+    const mutateRate = Number.parseFloat(
+        localStorage.getItem('mutateRate') || '0.2',
+    )
+    const carList = Car.createAiCarList(road, mutateRate)
 
     const render = (ctx: CanvasRenderingContext2D) => {
         if (ctx === null) {
@@ -107,6 +110,16 @@ function App() {
             <div>
                 <button onClick={saveAi}>保存模型</button>
                 <button onClick={removeAi}>删除模型</button>
+                <br/>
+                <label>
+                    变异率 🧬
+                    <input
+                        defaultValue={mutateRate}
+                        onChange={e => localStorage.setItem('mutateRate', e.target.value)}
+                    />
+                </label>
+                <br/>
+                <button onClick={() => location.reload()}>遗传下一代</button>
             </div>
         </>
     )
