@@ -35,9 +35,9 @@ function App() {
         }
 
         for (let trafficCar of traffic) {
-            Car.update(trafficCar, road.roadBorderList)
+            Car.update(trafficCar, road.roadBorderList, [])
         }
-        Car.update(car, road.roadBorderList)
+        Car.update(car, road.roadBorderList, traffic.map(item => item.polygonList))
 
         ctx.translate(0, -car.y + constant.canvasHeight / 2)
 

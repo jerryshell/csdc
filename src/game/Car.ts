@@ -85,6 +85,7 @@ const move = (car: ICar) => {
 const update = (
     car: ICar,
     roadBorderList: ILine[],
+    trafficPolygonCollection: IPoint[][],
 ) => {
     if (car.damageFlag) {
         return
@@ -92,13 +93,14 @@ const update = (
     CarController.update(car.carController)
     Sensor.update(car.sensor, car, roadBorderList)
     updatePolygonList(car)
-    updateDamageFlag(car, roadBorderList)
+    updateDamageFlag(car, roadBorderList, trafficPolygonCollection)
     move(car)
 }
 
 const updateDamageFlag = (
     car: ICar,
     roadBorderList: ILine[],
+    trafficPolygonCollection: IPoint[][],
 ) => {
     // 与道路边界线碰撞检测
     for (let i = 0; i < car.polygonList.length; i++) {
@@ -118,6 +120,31 @@ const updateDamageFlag = (
             if (intersection) {
                 car.damageFlag = true
                 return
+            }
+        }
+    }
+    // 与其他车辆碰撞检测
+    for (let i = 0; i < car.polygonList.length; i++) {
+        const polygon = car.polygonList[i]
+        const polygonNext = car.polygonList[(i + 1) % car.polygonList.length]
+        for (let trafficPolygonList of trafficPolygonCollection) {
+            for (let j = 0; j < trafficPolygonList.length; j++) {
+                const trafficPolygon = trafficPolygonList[i]
+                const trafficPolygonNext = trafficPolygonList[(j + 1) % trafficPolygonList.length]
+                const intersection = utils.getIntersection(
+                    {
+                        startPoint: polygon,
+                        endPoint: polygonNext,
+                    },
+                    {
+                        startPoint: trafficPolygon,
+                        endPoint: trafficPolygonNext,
+                    },
+                )
+                if (intersection) {
+                    car.damageFlag = true
+                    return
+                }
             }
         }
     }
