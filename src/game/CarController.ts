@@ -42,24 +42,35 @@ export interface ICarController {
     left: boolean,
     right: boolean,
     reverse: boolean,
+    controlType: string,
 }
 
-const create = () => {
+const create = (
+    controlType: string,
+) => {
     return {
         forward: false,
         left: false,
         right: false,
         reverse: false,
+        controlType,
     } as ICarController
 }
 
 const update = (
     cc: ICarController,
 ) => {
-    cc.forward = keyWDown
-    cc.left = keyADown
-    cc.right = keyDDown
-    cc.reverse = KeySDown
+    switch (cc.controlType) {
+        case 'keyboard':
+            cc.forward = keyWDown
+            cc.left = keyADown
+            cc.right = keyDDown
+            cc.reverse = KeySDown
+            break
+        case 'dummy':
+            cc.forward = true
+            break
+    }
 }
 
 export default {

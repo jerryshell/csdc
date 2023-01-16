@@ -18,6 +18,7 @@ export interface ICar {
     sensor: ISensor,
     polygonList: IPoint[],
     damageFlag: boolean,
+    controlType: string,
 }
 
 const create = (
@@ -27,6 +28,7 @@ const create = (
     height: number,
     color: string,
     maxSpeed: number,
+    controlType: string,
 ) => {
     return {
         x,
@@ -34,13 +36,14 @@ const create = (
         width,
         height,
         color,
-        carController: CarController.create(),
+        carController: CarController.create(controlType),
         speed: 0,
         maxSpeed,
         angle: 0,
         sensor: Sensor.create(),
         polygonList: [],
         damageFlag: false,
+        controlType,
     } as ICar
 }
 
@@ -165,7 +168,9 @@ const render = (
 
     ctx.restore()
 
-    Sensor.render(ctx, car.sensor)
+    if (car.controlType !== 'dummy') {
+        Sensor.render(ctx, car.sensor)
+    }
 }
 
 export default {
