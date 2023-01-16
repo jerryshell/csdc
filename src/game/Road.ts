@@ -1,17 +1,43 @@
 import constant from '../constant'
 import utils from '../utils'
+import ILine from '../2d/ILine'
 
 export interface IRoad {
     width: number,
     height: number,
     laneCount: number,
+    roadBorderList: ILine[],
 }
 
 const create = () => {
+    const width = constant.canvasWidth
+    const height = 100000
     return {
-        width: constant.canvasWidth,
-        height: 100000,
+        width,
+        height,
         laneCount: 3,
+        roadBorderList: [
+            {
+                startPoint: {
+                    x: 0,
+                    y: -height / 2,
+                },
+                endPoint: {
+                    x: 0,
+                    y: height / 2,
+                },
+            },
+            {
+                startPoint: {
+                    x: width,
+                    y: -height / 2,
+                },
+                endPoint: {
+                    x: width,
+                    y: height / 2,
+                },
+            },
+        ],
     } as IRoad
 }
 
