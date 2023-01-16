@@ -200,6 +200,7 @@ const updatePolygonList = (car: ICar) => {
 const render = (
     ctx: CanvasRenderingContext2D,
     car: ICar,
+    renderSensorFlag: boolean,
 ) => {
     ctx.save()
 
@@ -216,7 +217,7 @@ const render = (
 
     ctx.restore()
 
-    if (car.controlType !== 'dummy') {
+    if (renderSensorFlag && car.controlType !== 'dummy') {
         Sensor.render(ctx, car.sensor)
     }
 }

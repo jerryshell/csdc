@@ -48,11 +48,14 @@ function App() {
 
         Road.render(ctx, road)
         for (let trafficCar of traffic) {
-            Car.render(ctx, trafficCar)
+            Car.render(ctx, trafficCar, false)
         }
+        ctx.globalAlpha = 0.2
         for (let car of carList) {
-            Car.render(ctx, car)
+            Car.render(ctx, car, false)
         }
+        ctx.globalAlpha = 1
+        Car.render(ctx, bestCar, true)
     }
     return (
         <>
