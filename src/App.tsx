@@ -13,7 +13,7 @@ function App() {
             -100,
             60,
             80,
-            '#FCFCFC',
+            '#8DCBE6',
             2,
             'dummy',
         ),
