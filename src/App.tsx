@@ -19,6 +19,33 @@ function App() {
             2,
             'dummy',
         ),
+        Car.create(
+            Road.getLaneCenterX(road, 0),
+            -500,
+            60,
+            80,
+            '#8DCBE6',
+            2,
+            'dummy',
+        ),
+        Car.create(
+            Road.getLaneCenterX(road, 2),
+            -500,
+            60,
+            80,
+            '#8DCBE6',
+            2,
+            'dummy',
+        ),
+        Car.create(
+            Road.getLaneCenterX(road, 1),
+            -900,
+            60,
+            80,
+            '#8DCBE6',
+            2,
+            'dummy',
+        ),
     ]
 
     // const car = Car.create(

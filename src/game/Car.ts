@@ -50,7 +50,7 @@ const create = (
 }
 
 const createAiCarList = (road: IRoad) => {
-    const N = 100
+    const N = 500
     const carList = [] as ICar[]
 
     for (let i = 0; i < N; i++) {
@@ -65,7 +65,7 @@ const createAiCarList = (road: IRoad) => {
         )
         NeuralNetwork.load(car.carController.ai!)
         if (i !== 0) {
-            NeuralNetwork.mutate(car.carController.ai!, 0.2)
+            NeuralNetwork.mutate(car.carController.ai!, 0.01)
         }
         carList.push(car)
     }
