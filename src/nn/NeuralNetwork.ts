@@ -24,7 +24,7 @@ const create = (layerTopology: number[]) => {
 const feed = (nn: INeuralNetwork, inputList: number[]) => {
     let output = NeuralNetworkLayer.feed(nn.layerList[0], inputList)
     for (let i = 1; i < nn.layerList.length; i++) {
-        output = NeuralNetworkLayer.feed(nn.layerList[i], inputList)
+        output = NeuralNetworkLayer.feed(nn.layerList[i], output)
     }
     return output
 }
