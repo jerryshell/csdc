@@ -50,7 +50,7 @@ const create = (
 }
 
 const createAiCarList = (road: IRoad, mutateRate: number) => {
-    const N = 500
+    const N = 1000
     const carList = [] as ICar[]
 
     for (let i = 0; i < N; i++) {

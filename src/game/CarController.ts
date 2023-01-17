@@ -57,7 +57,7 @@ const create = (
         right: false,
         reverse: false,
         controlType,
-        ai: controlType === 'ai' ? NeuralNetwork.create([5, 10, 4]) : null,
+        ai: controlType === 'ai' ? NeuralNetwork.create([5, 4]) : null,
     } as ICarController
 }
 
